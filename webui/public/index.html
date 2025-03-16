@@ -46,6 +46,7 @@
             
             try {
                 const response = await fetch('/fetch-backend');
+                // This is already a relative URL, so it works whether accessed directly or through the API gateway
                 const data = await response.json();
                 resultDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
             } catch (error) {

@@ -4,16 +4,14 @@ services:
   backend:
     build:
       context: ./backend
-    ports:
-      - "8000:8000"
+    # Only expose to internal network, not to host
     networks:
       - app-network
 
   webui:
     build:
       context: ./webui
-    ports:
-      - "3000:3000"
+    # Only expose to internal network, not to host
     networks:
       - app-network
 
@@ -21,9 +19,12 @@ services:
     build:
       context: ./api-gateway
     ports:
-      - "8080:8080"
+      - "8080:8080"  # Only expose the API gateway port
     networks:
       - app-network
+    depends_on:
+      - backend
+      - webui
 
 networks:
   app-network:

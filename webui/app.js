@@ -11,9 +11,15 @@ app.get('/', (req, res) => {
 
 app.get('/fetch-backend', async (req, res) => {
   try {
-    const response = await axios.get('http://api-gateway:8080/api/data');
+    // In production, this would be a relative URL to the same origin
+    const apiUrl = process.env.NODE_ENV === 'production' 
+      ? '/api/data'  // When accessed through API gateway
+      : 'http://api-gateway:8080/api/data';  // Direct container communication
+      
+    const response = await axios.get(apiUrl);
     res.json(response.data);
   } catch (error) {
+    console.error('Error fetching from backend:', error.message);
     res.status(500).send('Error fetching data from backend');
   }
 });

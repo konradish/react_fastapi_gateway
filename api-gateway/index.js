@@ -1,25 +1,22 @@
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
+const path = require('path');
 const app = express();
 const port = 8080;
 
-// Add a root route handler
-app.get('/', (req, res) => {
-  res.send(`
-    <h1>API Gateway</h1>
-    <p>This is the API Gateway service. Available endpoints:</p>
-    <ul>
-      <li><a href="/api/data">/api/data</a> - Get data from the backend service</li>
-    </ul>
-  `);
-});
-
+// Proxy API requests to the backend
 app.use('/api', createProxyMiddleware({
   target: 'http://backend:8000',
   changeOrigin: true,
   pathRewrite: {
     '^/api': ''
   }
+}));
+
+// Proxy requests for the web UI
+app.use('/', createProxyMiddleware({
+  target: 'http://webui:3000',
+  changeOrigin: true
 }));
 
 app.listen(port, () => {
