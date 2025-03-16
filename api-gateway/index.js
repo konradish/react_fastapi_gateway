@@ -7,7 +7,7 @@ app.use('/api', createProxyMiddleware({
   target: 'http://backend:8000',
   changeOrigin: true,
   pathRewrite: {
-    '^/api': '/api'
+    '^/api': ''
   }
 }));
 
