@@ -2,6 +2,6 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/api/data")
+@app.get("/data")
 async def get_data():
     return {"message": "Hello from FastAPI backend!"}

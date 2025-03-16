@@ -13,10 +13,13 @@ app.use('/api', createProxyMiddleware({
   }
 }));
 
-// Proxy requests for the web UI
+// Proxy requests for the web UI - but exclude /api paths
 app.use('/', createProxyMiddleware({
   target: 'http://webui:3000',
-  changeOrigin: true
+  changeOrigin: true,
+  pathFilter: function (path, req) {
+    return !path.startsWith('/api');
+  }
 }));
 
 app.listen(port, () => {
